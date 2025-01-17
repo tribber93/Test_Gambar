@@ -1,4 +1,4 @@
-# Image Detection and Classification with YOLOv5
+# Image Detection and Classification with YOLOv11
 
 ## Deskripsi
 Proyek ini terdiri dari dua program:
