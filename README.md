@@ -1,28 +1,28 @@
 # Image Detection and Classification with YOLOv11
 
-## Deskripsi
-Proyek ini terdiri dari dua program:
-1. **Count**: Program ini akan mendeteksi pohon sawit menggunakan model YOLOv11 dan menampilkan kotak pembatas (bounding box) berurutan untuk setiap pohon sawit yang terdeteksi. Gambar hasil keluaran akan menunjukkan pohon sawit yang terdeteksi dengan nomor urut.
-2. **Classify**: Program ini akan memotong gambar apel berdasarkan klasifikasi warna: merah, kuning, dan hijau. Setiap apel yang dipotong akan disimpan dalam file terpisah yang diberi label sesuai dengan warna apel tersebut.
+## Description
+This project consists of two programs:
+1. **Count**: This program detects oil palm trees using the YOLOv11 model and displays sequential bounding boxes for each detected palm tree. The output image will show the detected palm trees labeled with sequential numbers.
+2. **Classify**: This program crops apple images based on color classification: red, yellow, and green. Each cropped apple image will be saved as a separate file labeled according to its color.
 
-## Fitur
+## Features
 - **Count Program**:
-  - Deteksi pohon sawit.
-  - Menampilkan kotak pembatas yang berurutan dengan nomor untuk setiap pohon sawit.
-  - Output berupa gambar baru dengan bounding boxes berlabel.
+  - Detects oil palm trees.
+  - Displays sequentially labeled bounding boxes for each detected palm tree.
+  - Outputs a new image with labeled bounding boxes.
 
 - **Classify Program**:
-  - Deteksi dan klasifikasi apel berdasarkan warna (merah, kuning, hijau).
-  - Memotong gambar apel dan menyimpannya dalam file terpisah berdasarkan klasifikasi warna.
-  - Output berupa gambar cropped dengan nama file `red_1.jpg`, `yellow_1.jpg`, `green_1.jpg`, dll.
+  - Detects and classifies apples based on their color (red, yellow, green).
+  - Crops apple images and saves them as separate files based on their color classification.
+  - Outputs cropped images named red_1.jpg, yellow_1.jpg, green_1.jpg, etc.
 
-## Persyaratan
+## Requirements
 - Python 3.11.x
-- YOLOv11 (untuk deteksi objek)
-- OpenCV (untuk manipulasi gambar)
-- Roboflow untuk dataset pelatihan
+- YOLOv11 (for object detection)
+- OpenCV (for image manipulation)
+- Roboflow for training datasets
 
-## Instalasi
+## Installation
 
 1. **Clone Repository**:
    ```bash
@@ -30,31 +30,31 @@ Proyek ini terdiri dari dua program:
    cd repository
     ```
 
-2. **Instalasi dependensi**: Anda perlu menginstal dependensi yang diperlukan. Jalankan perintah berikut:
+2. **Install Dependencies**: You need to install the required dependencies. Run the following command:
 
     ```bash
     pip install -r requirements.txt
     ```
 
 ## Dataset
-Dataset untuk kedua program ini diunduh dan dilatih dari dataset yang ada di Roboflow.
+The datasets for both programs are downloaded and trained from Roboflow.
 
-- [Palm Tree Dataset](https://universe.roboflow.com/aakash-thapa-5qpod/palm-tree-label-200m-splitted-wdpy4) : Dataset berisi gambar pohon kelapa di perkebunan.
-- [Apple Dataset](https://universe.roboflow.com/nn-2ju5u/apple_maturity-1ayzw) : Dataset berisi gambar apel dengan berbagai warna (merah, kuning, hijau).
+- [Palm Tree Dataset](https://universe.roboflow.com/aakash-thapa-5qpod/palm-tree-label-200m-splitted-wdpy4) : A dataset containing images of palm trees in plantations.
+- [Apple Dataset](https://universe.roboflow.com/nn-2ju5u/apple_maturity-1ayzw) : A dataset containing images of apples in various colors (red, yellow, green).
 
-## Train
-Untuk melatih model YOLOv11 ini sudah saya sediakan di file .ipyb yang ada di repository ini. Anda bisa melihatnya di [Count Palm Tree](./Count.ipynb) dan [Classify Apple](./Classify.ipynb).
+## Training
+To train the YOLOv11 model, Jupyter notebooks have been provided in this repository. You can find them in [Count Palm Tree](./Count.ipynb) and [Classify Apple](./Classify.ipynb).
 
 ## Penggunaan
 - **Count Program**:
 
-untuk penggunaannya bisa melalui terminal dengan menjalankan perintah berikut:
+You can use it via the terminal by running the following command:
 
 ```bash
 yolo task=detect mode=predict model=model/palm/best.pt conf=0.25 source='https://storage.googleapis.com/648010c1-f244-4641-98f2-73ff6c1b4e99/ai_assignment_20241202_count.jpeg'
 ```
-atau bisa juga dengan menjalankan skrip berikut:
-### Import library
+Or by running the following script:
+### Import libraries
 ```python
 import os
 import cv2
@@ -74,7 +74,7 @@ image = Image.open(requests.get('https://storage.googleapis.com/648010c1-f244-46
 result = model.predict(image, conf=0.25)[0]
 ```
 
-### Menampilkan hasil deteksi
+### Display Detection Results
 ```python
 from typing_extensions import Annotated
 
@@ -108,19 +108,19 @@ resized_image.save('Count_Palm.jpg', optimize=True, quality=70)
 resized_image
 ```
 
-Output akan berupa gambar dengan bounding boxes berurutan yang menunjukkan pohon sawit terdeteksi seperti berikut.
+The output will be an image with sequentially numbered bounding boxes for detected palm trees, as shown below.
 ![Nama Gambar](./Count_Palm.jpg)
 
 - **Classify Program**:
 
-untuk penggunaannya bisa melalui terminal dengan menjalankan perintah berikut:
+You can use it via the terminal by running the following command:
 
 ```bash
 yolo task=detect mode=predict model=model/apple/best.pt conf=0.4 source='https://storage.googleapis.com/648010c1-f244-4641-98f2-73ff6c1b4e99/ai_assignment_20230726_classify.jpeg
 ```
 
-atau bisa juga dengan menjalankan skrip berikut:
-- import library seperti yang dilakukan [diatas](#import-library)
+Or by running the following script:
+- Import libraries as done  [above](#import-library)
 
 ```python
 # Load model
@@ -129,7 +129,7 @@ model = YOLO('model/apple/best.pt')
 image = Image.open(requests.get('https://storage.googleapis.com/648010c1-f244-4641-98f2-73ff6c1b4e99/ai_assignment_20230726_classify.jpeg', stream=True).raw)
 result = model.predict(image, conf=0.4)[0]
 ```
-lalu untuk mendapatkan output yang berupa gambar-gambar dengan nama file red_1.jpg, yellow_1.jpg, green_1.jpg, dst. bisa menggunakan skrip berikut:
+To generate output images named red_1.jpg, yellow_1.jpg, green_1.jpg, etc., you can use the following script:
 ```python
 # Get bounding boxes and class labels
 boxes = result.boxes.xyxy  
@@ -164,7 +164,7 @@ for i, (box, class_id) in enumerate(zip(boxes, class_ids)):
 
 print(f"Images saved in {output_dir}")
 ```
-Dan akan menghasilkan output seperti berikut dari folder "cropped_apple":
+The output will appear as shown in the "cropped_apple" folder:
 <div style="display: flex; justify-content: space-between; align-items: center;">
   <div style="text-align: center;">
     <img src="./cropped_apple/red_1.jpg" alt="Red Apple" style="width: 50%; height: auto;">
